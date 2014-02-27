@@ -1,0 +1,38 @@
+/----------------\
+|GERAÇÃO DE CHAVE|
+\----------------/
+
+Entrada chave 10 bits
+
+#scanf matriz[10]
+
+
+Permutação 10 (P10)
+
+3 5 2 7 4 10 1 9 8 6
+
+LS-1
+
+divide em duas de 5 e gira o primeiro bit
+
+   (Le)			     (Ld)
+2 3 4 5 1     ------- 	   7 8 9 10 6
+|				                    |
+|	      permutação 8	    	|
+|				                    |
+|	    6 3 7 4 8 5 10 9      |
+|				                    |
+v	      "chegamos em k1"	  v
+
+LS-2
+
+Giramos dois bits
+
+   (Le)		     		(Ld)
+3 4 5 1 2       -------	    8 9 10 6 7
+
+Permutação 8
+
+6 3 7 4 8 5 10 9
+
+"temos K2"
