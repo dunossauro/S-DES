@@ -26,8 +26,8 @@ Versão e Licença:
 			3.	Melhor documentação e explicação via comentários no código
 
 		Agradecimento:
-			Especial para o Murilo Fujita que me fez voltar a mecher com esse código para que sua finalidade fosse muito melhor 
-			estruturada e limpa na v. 0.2. Um Abraço.
+			Especial para o Murilo Fujita que me fez voltar a mecher com esse código para que sua 
+			finalidade fosse muito melhor estruturada e limpa na v. 0.2. Um Abraço.
 Sobre o Programa:
 
 	O objetivo desse programa é ser uma alternativa simples para o
@@ -37,11 +37,15 @@ Sobre o Programa:
 
 Sobre a Funcionalidade:
 	
-	Expanção de chaves(void chaves):
+	Expanção de chaves(void chaves()):
 
-		O programa pede uma entrada de 10 bit para trabalhar com as chaves e leva os resultados para k1 e k2 (variáveis globais)
+		O programa pede uma entrada de 10 bit para trabalhar com as chaves
+		e leva os resultados para k1 e k2 (variáveis globais)
 	
-		
+	Sobre o funconamento geral(int sdes()):
+	
+		Trata a entrada de um texto claro(em bits) e executa a criptografia, ou descriptografia
+		do texto usando a chave que foi usada como entrada na primeira função
 Sobre o futuro dessas linhas:
 
 	Organização das variáveis e mudança de alguns nomes para melhor entendimento do código
