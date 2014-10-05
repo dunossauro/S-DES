@@ -16,7 +16,11 @@ Versão e Licença:
 	Versões:
 
 	V. 0.1	-	03/14 - Eduardo Mendes
-
+	
+		Agradecimento:
+			Em especial ao Mestre Jedi Alexandre Aguado por me mostrar a arte da criptografia
+			e dar o ponta pé inicial a uma área da computação que mudou a minha vida.
+			
 	V. 0.2	-	08/14 - Eduardo Mendes
 
 		Alterações:
