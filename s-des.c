@@ -1,17 +1,70 @@
-/*Código feito e testado no Slackware 14.1
-Escrito(e muito mal escrito) por Eduardo Mendes
-É um passo a passo deenvolvido nos laboratórios da Fatec-AM
-Durante as aulas de criptografia*/
+/*
+
+Geral:
+
+	Código feito e testado no Slackware 14.1 com gcc 4.8.3 e bash 4.3
+	Escrito(e muito mal escrito) por Eduardo Mendes (mendesxeduardo@gmail.com)
+	É um passo a passo deenvolvido nos laboratórios da Fatec-AM
+	Durante as aulas de criptografia
+	Esse texto é melhor visualizado no gedit(http://www.gedit.org)
+
+Versão e Licença:
+
+	Licença:
+		GPL.
+
+	Versões:
+
+	V. 0.1	-	03/14 - Eduardo Mendes
+
+	V. 0.2	-	08/14 - Eduardo Mendes
+
+		Alterações:
+
+			1.	Inserção de um Menu para organizar as chamadas;
+			2.	Redução de algumas(muitas) linhas de código aplicando chaviamento
+			3.	Melhor documentação e explicação via comentários no código
+
+		Agradecimento:
+			Especial para o Murilo Fujita que me fez voltar a mecher com esse código para que sua finalidade fosse muito melhor 
+			estruturada e limpa na v. 0.2. Um Abraço.
+Sobre o Programa:
+
+	O objetivo desse programa é ser uma alternativa simples para o
+	entendimento do algorimito DES, usando uma vertente chamada S-DES
+	Apresentada no apendice C do livro: "Criptografia e segurança em redes
+	de computadores" - Willian Stallings
+
+Sobre a Funcionalidade:
+	
+	Expanção de chaves(void chaves):
+
+		O programa pede uma entrada de 10 bit para trabalhar com as chaves e leva os resultados para k1 e k2 (variáveis globais)
+	
+		
+Sobre o futuro dessas linhas:
+
+	Organização das variáveis e mudança de alguns nomes para melhor entendimento do código
+*/
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <curses.h>
 
 //variaveis_globais
+//Chave de 10bits
 int chave[10];
+//primeira Key gerada pela expansão de chaves
 int k1[8];
+//primeira Key gerada pela expansão de chaves
 int k2[8];
+//Texto claro inserido a ser criptografado
 int texto[8];
+
+//Chaveamento
+
+int c_cripto, c_descripto, c_exp, c_menu = 0;
+
 
 //função que cria as Ks
 void chaves (){
@@ -19,8 +72,8 @@ void chaves (){
 system("clear");
 
 //variaveis_locais
-int j;
-int p[10], le[5], ld[5];
+int j; //Variável contadora
+int p[10]/* Vertor para auxiliar as passagens*/, le[5] /*uso de lados para auxiliar na rotações únicas de bits*/, ld[5];
 
 printf("Digite os 10 numeros de chave:\n");
 
@@ -151,15 +204,25 @@ printf("\n");
 }
 
 
-void cripto(){
+void sdes(){
 
-int p[8],ld[4],le[4],j,s0[4][4],s1[4][4],xor[8],linha[2],coluna[2],i,bit[2];
+int p[8]/*Auxiliar para permutação */,ld[4],le[4]/*Divisão para trablhar com lados*/,xor[8]/*Váriavel para o XOR*/;
 
-//pos matriz
+int linha[2],coluna[2]/*Variáveis para percorrer a matriz*/,bit[2]/*Recebe o bit percorrido da matriz*/;
+
+int i,j; //Variáveis contadores
+
+//Matrizes pré definidas nó algoritimo
+int s0[4][4],s1[4][4];
+
+//
 int pm[4];
 
 //ip(final do codigo)
 int ip[8];
+
+//Váriável que auxilia o chaveamento do chaveamento
+int descripto[8];
 
 //valores da matriz s0
 s0[0][0]=1;
@@ -197,7 +260,38 @@ s1[3][1]=1;
 s1[3][2]=0;
 s1[3][3]=3;
 
-printf("Digite o texto claro\n");
+//Chaveamento em ação
+
+if (c_exp == 0){
+
+	printf("Por favor, primeiro faca a expansao das chaves\n\n");
+	menu();
+
+}else{
+	if(c_cripto == 1){
+		c_cripto = 0;
+	}
+	else if(c_descripto == 1){
+		
+		for(i = 0; i < 9; i++){
+
+			descripto[i] = k1[i];
+
+		}
+		for(i = 0; i < 9; i++){
+			k1[i] = k2[i];
+		}
+		for(i = 0; i < 9; i++){
+			k2[i] = descripto[i];
+		
+		}
+	c_descripto = 0;
+	}
+}
+
+
+
+printf("Digite o texto claro em bits: \n");
 
 for(j=0;j<8;j++){
 
@@ -611,412 +705,55 @@ for(j=0;j<=7;j++){
 printf("\n");
 }
 
-void descripto(){
+int menu(){
 
-int p[8],ld[4],le[4],j,s0[4][4],s1[4][4],xor[8],linha[2],coluna[2],i,bit[2];
+int opt = 0;
 
-//pos matriz
-int pm[4];
+if (c_menu == 0){
 
-//ip(final do codigo)
-int ip[8];
-
-//valores da matriz s0
-s0[0][0]=1;
-s0[0][1]=0;
-s0[0][2]=3;
-s0[0][3]=2;
-s0[1][0]=3;
-s0[1][1]=2;
-s0[1][2]=1;
-s0[1][3]=0;
-s0[2][0]=0;
-s0[2][1]=2;
-s0[2][2]=1;
-s0[2][3]=3;
-s0[3][0]=3;
-s0[3][1]=1;
-s0[3][2]=3;
-s0[3][3]=2;
-
-//valores da matriz s1
-s1[0][0]=0;
-s1[0][1]=1;
-s1[0][2]=2;
-s1[0][3]=3;
-s1[1][0]=2;
-s1[1][1]=0;
-s1[1][2]=1;
-s1[1][3]=3;
-s1[2][0]=3;
-s1[2][1]=0;
-s1[2][2]=1;
-s1[2][3]=0;
-s1[3][0]=2;
-s1[3][1]=1;
-s1[3][2]=0;
-s1[3][3]=3;
-
-printf("Digite o texto criptografado\n");
-
-for(j=0;j<8;j++){
-
-	scanf("%i",&texto[j]);
-	if((texto[j]!=1) && (texto[j] !=0)){
-        	printf("Digite só 0 ou 1!!!:\n");
-        }
+system("clear");
 
 }
-
-//IP
-p[0]=texto[1];
-p[1]=texto[5];
-p[2]=texto[2];
-p[3]=texto[0];
-p[4]=texto[3];
-p[5]=texto[7];
-p[6]=texto[4];
-p[7]=texto[6];
-
-//L - R
-le[0]=p[0];
-le[1]=p[1];
-le[2]=p[2];
-le[3]=p[3];
-ld[0]=p[4];
-ld[1]=p[5];
-ld[2]=p[6];
-ld[3]=p[7];
-
-//E/P
-p[0]=ld[3];
-p[1]=ld[0];
-p[2]=ld[1];
-p[3]=ld[2];
-p[4]=ld[1];
-p[5]=ld[2];
-p[6]=ld[3];
-p[7]=ld[0];
-
-//XOR K2
-xor[0]=(p[0]^k2[0]);
-xor[1]=(p[1]^k2[1]);
-xor[2]=(p[2]^k2[2]);
-xor[3]=(p[3]^k2[3]);
-xor[4]=(p[4]^k2[4]);
-xor[5]=(p[5]^k2[5]);
-xor[6]=(p[6]^k2[6]);
-xor[7]=(p[7]^k2[7]);
-
-//matriz s0 1-4
-
-if( (xor[1]=0) && (xor[4]=0)){
-	linha[0]=0;
-}
-if( (xor[1]=0) && (xor[4]=1)){
-	linha[0]=1;
-}
-if( (xor[1]=1)  && (xor[4]=0)){
-        linha[0]=2;
-}
-if( (xor[1]=1) && (xor[4]=1)){
-        linha[0]=3;
-}
-
-//matriz s0 2-3
-
-if((xor[2]=0)  && (xor[3]=0)){
-        coluna[0]=0;
-}
-if((xor[2]=0) && (xor[3]=1)){
-        coluna[0]=1;
-}
-if((xor[2]=1)  && (xor[3]=0)){
-        coluna[0]=2;
-}
-if((xor[2]=1) && (xor[3]=1)){
-        coluna[0]=3;
-}
-
-//busca na matriz S0
-
-for(j=0;j>4;j++){
-	if(linha[0]=j){
-		for(i=0;i>4;i++){
-			if(coluna[0]=i){
-				bit[0]=s0[j][i];
-			}
-		}
-	}
-}
-
-//converçao decimal -> binario
-if(bit[0]=0){
-
-	pm[0]=0;
-	pm[1]=0;
-}if(bit[0]=1){
-
-	pm[0]=0;
-	pm[1]=1;
-
-}if(bit[0]=2){
-
-	pm[0]=1;
-	pm[1]=0;
-
-}if(bit[0]=3){
-
-	pm[0]=1;
-	pm[1]=1;
-}
-
-//matriz s1 1-4
-
-if((xor[1]=0)  && (xor[4]=0)){
-        linha[1]=0;
-}
-if((xor[1]=0) && (xor[4]=1)){
-        linha[1]=1;
-}
-if((xor[1]=1)  && (xor[4]=0)){
-        linha[1]=2;
-}
-if((xor[1]=1) && (xor[4]=1)){
-        linha[1]=3;
-}
-
-//matriz s1 2-3
-
-if((xor[2]=0)  && (xor[3]=0)){
-        coluna[1]=0;
-}
-if((xor[2]=0) && (xor[3]=1)){
-        coluna[1]=1;
-}
-if((xor[2]=1)  && (xor[3]=0)){
-        coluna[1]=2;
-}
-if((xor[2]=1) && (xor[3]=1)){
-        coluna[1]=3;
-}
-
-//busca na matriz S1
-
-for(j=0;j>4;j++){
-        if(linha[1]=j){
-                for(i=0;i>4;i++){
-                        if(coluna[1]=i){
-                                bit[1]=s1[j][i];
-                        }
-                }
-        }
-}
-
-//converçao decimal -> binario S1
-if(bit[1]=0){
-
-        pm[2]=0;
-        pm[3]=0;
-}if(bit[1]=1){
-
-        pm[2]=0;
-        pm[3]=1;
-
-}if(bit[1]=2){
-
-        pm[2]=1;
-        pm[3]=0;
-
-}if(bit[1]=3){
-
-        pm[2]=1;
-        pm[3]=1;
-}
-
-//P4
-
-p[0]=pm[1];
-p[1]=pm[3];
-p[2]=pm[2];
-p[3]=pm[0];
-
-//xor Le ^ p4
-
-xor[0]=(le[0]^p[0]);
-xor[1]=(le[1]^p[1]);
-xor[2]=(le[2]^p[2]);
-xor[3]=(le[3]^p[3]);
-
-//junçao 8bits
-
-p[0]=xor[0];
-p[1]=xor[1];
-p[2]=xor[2];
-p[3]=xor[3];
-p[4]=ld[0];
-p[5]=ld[1];
-p[6]=ld[2];
-p[7]=ld[3];
-
-//SW
-
-le[0]=p[4];
-le[1]=p[5];
-le[2]=p[6];
-le[3]=p[7];
-ld[0]=p[0];
-ld[1]=p[1];
-ld[2]=p[2];
-ld[3]=p[3];
-
-//E/P
-
-p[0]=ld[3];
-p[1]=ld[0];
-p[2]=ld[1];
-p[3]=ld[2];
-p[4]=ld[1];
-p[5]=ld[2];
-p[6]=ld[3];
-p[7]=ld[0];
-
-//XOR K1
-
-xor[0]=(p[0]^k1[0]);
-xor[1]=(p[1]^k1[1]);
-xor[2]=(p[2]^k1[2]);
-xor[3]=(p[3]^k1[3]);
-xor[4]=(p[4]^k1[4]);
-xor[5]=(p[5]^k1[5]);
-xor[6]=(p[6]^k1[6]);
-xor[7]=(p[7]^k1[7]);
-
-//matriz s0 1-4
-
-if((xor[1]=0)  && (xor[4]=0)){
-        linha[0]=0;
-}
-if((xor[1]=0) && (xor[4]=1)){
-        linha[0]=1;
-}
-if((xor[1]=1)  && (xor[4]=0)){
-        linha[0]=2;
-}
-if((xor[1]=1) && (xor[4]=1)){
-        linha[0]=3;
-}
-
-//matriz s0 2-3
-
-if((xor[2]=0)  && (xor[3]=0)){
-        coluna[0]=0;
-}
-if((xor[2]=0) && (xor[3]=1)){
-        coluna[0]=1;
-}
-if((xor[2]=1)  && (xor[3]=0)){
-        coluna[0]=2;
-}
-if((xor[2]=1) && (xor[3]=1)){
-        coluna[0]=3;
-}
-
-//busca na matriz S0
-
-for(j=0;j>4;j++){
-        if(linha[0]=j){
-                for(i=0;i>4;i++){
-                        if(coluna[0]=i){
-                                bit[0]=s0[j][i];
-                        }
-                }
-        }
-}
-
-//converçao decimal -> binario
-if(bit[0]=0){
-
-        pm[0]=0;
-        pm[1]=0;
-}if(bit[0]=1){
-
-        pm[0]=0;
-        pm[1]=1;
-
-}if(bit[0]=2){
-
-        pm[0]=1;
-        pm[1]=0;
-
-}if(bit[0]=3){
-
-        pm[0]=1;
-        pm[1]=1;
-}
-
-//P4
-
-p[0]=pm[1];
-p[1]=pm[3];
-p[2]=pm[2];
-p[3]=pm[0];
-
-//xor Le ^ p4
-
-xor[0]=(le[0]^p[0]);
-xor[1]=(le[1]^p[1]);
-xor[2]=(le[2]^p[2]);
-xor[3]=(le[3]^p[3]);
-
-//junçao 8bits
-
-p[0]=xor[0];
-p[1]=xor[1];
-p[2]=xor[2];
-p[3]=xor[3];
-p[4]=ld[0];
-p[5]=ld[1];
-p[6]=ld[2];
-p[7]=ld[3];
-
-//IP(reverso)
-
-ip[0]=p[3];
-ip[1]=p[0];
-ip[2]=p[2];
-ip[3]=p[4];
-ip[4]=p[6];
-ip[5]=p[1];
-ip[6]=p[7];
-ip[7]=p[5];
-
-printf("Valor puro: ");
-for(j=0;j<=7;j++){
-
-	printf("%i",ip[j]);
-
-}
-
-printf("\nTexto criptografado: ");
-
-for(j=0;j<=7;j++){
-
-	printf("%d",texto[j]);
-
-}
-printf("\n");
+do{
+	printf("=== MENU ====");
+	printf("\n\n");
+	printf("1. Expandir Chaves\n");
+	printf("2. Criptografar\n");
+	printf("3. Descriptografar\n");
+	printf("4. Sair");
+	printf("\n\n");
+	printf("Opção: ");
+
+        scanf("%i", &opt);
+
+	system("clear");
+	c_menu = 1;
+
+	switch(opt){
+		case 1:
+			c_exp = 1;
+			chaves();
+			break;
+		case 2:
+			c_cripto = 1;
+			sdes();
+			break;
+		case 3:
+			c_descripto = 1;
+			sdes();
+			break;
+		case 4:
+			exit(0);
+			break;
+		default:
+			exit(0);
+			break;
+       }
+}while (opt < 4);
 
 }
 
 main(){
-//inicia chaves
-	chaves();
 
-//inicia o processo de cripto
-	cripto();
-
-//inicia descripto
-	descripto();
-
+	menu();
 }
