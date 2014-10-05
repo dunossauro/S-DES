@@ -22,7 +22,7 @@ Versão e Licença:
 		Alterações:
 
 			1.	Inserção de um Menu para organizar as chamadas;
-			2.	Redução de algumas(muitas) linhas de código aplicando chaviamento
+			2.	Redução de algumas(muitas) linhas de código aplicando chaveamento
 			3.	Melhor documentação e explicação via comentários no código
 
 		Agradecimento:
