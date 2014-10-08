@@ -55,6 +55,7 @@ Sobre o futuro dessas linhas:
 	Organização das variáveis e mudança de alguns nomes para melhor entendimento do código
 */
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <curses.h>
@@ -64,7 +65,7 @@ Sobre o futuro dessas linhas:
 int chave[10];
 //primeira Key gerada pela expansão de chaves
 int k1[8];
-//primeira Key gerada pela expansão de chaves
+//segunda Key gerada pela expansão de chaves
 int k2[8];
 //Texto claro inserido a ser criptografado
 int texto[8];
@@ -293,7 +294,6 @@ if (c_exp == 0){
 			k2[i] = descripto[i];
 		
 		}
-	c_descripto = 0;
 	}
 }
 
@@ -708,6 +708,25 @@ printf("\nTexto puro: ");
 for(j=0;j<=7;j++){
 
 	printf("%d",texto[j]);
+
+//volta dos valores em caso de descriptografia
+
+else if(c_descripto == 1){
+		
+	for(i = 0; i < 9; i++){
+
+		descripto[i] = k2[i];
+
+	}
+	for(i = 0; i < 9; i++){
+		k2[i] = k1[i];
+	}
+	for(i = 0; i < 9; i++){
+		k1[i] = descripto[i];
+	
+	}
+
+c_descrito =0
 
 }
 printf("\n");
