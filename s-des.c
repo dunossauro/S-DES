@@ -4,7 +4,7 @@
 
 		Código feito e testado no Slackware 14.1 com gcc 4.8.3 e bash 4.3
 		Escrito(e muito mal escrito) por Eduardo Mendes (mendesxeduardo@gmail.com)
-		É um passo a passo deenvolvido nos laboratórios da Fatec-AM
+		É um passo a passo desenvolvido nos laboratórios da Fatec-AM
 		Durante as aulas de criptografia
 		Esse texto é melhor visualizado no gedit(http://www.gedit.org)
 
@@ -30,8 +30,8 @@
 				3.	Melhor documentação e explicação via comentários no código
 
 			Agradecimento:
-				Especial para o Murilo Fujita que me fez voltar a mecher com esse código para que sua 
-				finalidade fosse muito melhor estruturada e limpa na v. 0.2. Um Abraço.
+				Especial para o Murilo Fujita que me fez voltar a mecher com esse código para que suas linhas
+				fossem muito melhor estruturada e limpa na v. 0.2. Um Abraço.
 	Sobre o Programa:
 
 		O objetivo desse programa é ser uma alternativa simples para o
@@ -46,10 +46,11 @@
 			O programa pede uma entrada de 10 bit para trabalhar com as chaves
 			e leva os resultados para k1 e k2 (variáveis globais)
 		
-		Sobre o funconamento geral(int sdes()):
+		Sobre o funconamento (int sdes()):
 		
 			Trata a entrada de um texto claro(em bits) e executa a criptografia, ou decriptografia
 			do texto usando a chave que foi usada como entrada na primeira função
+	
 	Sobre o futuro dessas linhas:
 
 		Organização das variáveis e mudança de alguns nomes para melhor entendimento do código.
@@ -73,7 +74,7 @@ int texto[8];
 
 //Chaveamento
 
-int c_cripto, c_decripto, c_exp, c_menu = 0;
+int c_cripto, c_exp, c_menu = 0;
 
 
 //função que cria as Ks
@@ -280,7 +281,7 @@ void sdes(){
 		if(c_cripto == 1){
 			c_cripto = 0;
 		}
-		else if(c_decripto == 1){
+		else if(c_cripto == 1){
 			
 			for(i = 0; i < 9; i++){
 
@@ -460,6 +461,7 @@ void sdes(){
 
 	        pm[2]=0;
 	        pm[3]=0;
+
 	}if(bit[1]=1){
 
 	        pm[2]=0;
@@ -581,6 +583,7 @@ void sdes(){
 
 	        pm[0]=0;
 	        pm[1]=0;
+
 	}if(bit[0]=1){
 
 	        pm[0]=0;
@@ -644,6 +647,7 @@ void sdes(){
 
 	        pm[2]=0;
 	        pm[3]=0;
+
 	}if(bit[1]=1){
 
 	        pm[2]=0;
@@ -711,7 +715,7 @@ void sdes(){
 
 	//volta dos valores em caso de decriptografia
 
-	else if(c_decripto == 1){
+	if(c_cripto == 1){
 			
 		for(i = 0; i < 9; i++){
 
@@ -726,14 +730,14 @@ void sdes(){
 		
 		}
 
-	c_decrito =0
+	c_cripto = 0;
 
 	}
 	printf("\n");
 }
 
 //função que executa o menu e faz as chamas para criptografar ou decrtiptografar
-int menu(){
+void menu(){
 
 	int opt = 0;
 
@@ -767,7 +771,7 @@ int menu(){
 				sdes();
 				break;
 			case 3:
-				c_decripto = 1;
+				c_cripto = 1;
 				sdes();
 				break;
 			case 4:
@@ -782,6 +786,6 @@ int menu(){
 
 //mantem o laço constante
 main(){
-
+	
 	menu();
 }
